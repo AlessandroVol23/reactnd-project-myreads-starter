@@ -1,6 +1,10 @@
 import React from "react";
 import BookShelve from "./BookShelve";
 import * as BooksApi from "../BooksAPI";
+import Fab from "@material-ui/core/Fab";
+import AddIcon from "@material-ui/icons/Add";
+import Grid from "@material-ui/core/Grid";
+import { Link } from "react-router-dom";
 
 class MyReads extends React.Component {
   state = {
@@ -31,47 +35,70 @@ class MyReads extends React.Component {
 
   render() {
     return (
-      <div className="app">
-        <div className="list-books">
-          <div className="list-books-title">
-            <h1>MyReads</h1>
-          </div>
-          <div className="list-books-content">
-            <div>
-              <div className="bookshelf">
+      <Grid container>
+        <Grid xs={12} container item>
+          <Grid
+            className="list-books-title"
+            direction="row"
+            xs={12}
+            item
+            container
+          >
+            <Grid xs={8} item>
+              <h1>MyReads</h1>
+            </Grid>
+            <Grid
+              xs={4}
+              alignItems="flex-end"
+              container
+              item
+              justify="flex-end"
+            >
+              <Link
+                to={{
+                  pathname: "/search",
+                }}
+              >
+                <Fab
+                  color="primary"
+                  aria-label="add"
+                  style={{ marginRight: 20 }}
+                >
+                  <AddIcon />
+                </Fab>
+              </Link>
+            </Grid>
+          </Grid>
+          <Grid className="list-books-content">
+            <Grid>
+              <Grid className="bookshelf">
                 <h2 className="bookshelf-title">Currently Reading</h2>
-              </div>
-              <div>
                 <BookShelve
                   booklist={this.state.booklist}
                   shelfType="currentlyReading"
                   handleShelfChange={this.handleShelfChange}
                 />
-              </div>
-              <div className="bookshelf">
+              </Grid>
+              <Grid className="bookshelf">
                 <h2 className="bookshelf-title">Read</h2>
-              </div>
-              <div>
                 <BookShelve
                   booklist={this.state.booklist}
                   shelfType="read"
                   handleShelfChange={this.handleShelfChange}
                 />
-              </div>
-            </div>
-            <div className="bookshelf">
+              </Grid>
+            </Grid>
+            <Grid className="bookshelf">
               <h2 className="bookshelf-title">Want To Read</h2>
-            </div>
-            <div>
               <BookShelve
                 booklist={this.state.booklist}
                 shelfType="wantToRead"
                 handleShelfChange={this.handleShelfChange}
               />
-            </div>
-          </div>
-        </div>
-      </div>
+            </Grid>
+          </Grid>
+        </Grid>
+      </Grid>
     );
   }
 }

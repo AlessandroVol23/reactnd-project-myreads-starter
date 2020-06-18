@@ -1,8 +1,8 @@
 import React from "react";
-// import * as BooksAPI from './BooksAPI'
 import "./App.css";
 import MyReads from "./components/MyReads";
 import SearchPage from "./components/SearchPage";
+import { Route } from "react-router-dom";
 
 class BooksApp extends React.Component {
   state = {
@@ -10,10 +10,13 @@ class BooksApp extends React.Component {
   };
   render() {
     return (
-      this.state.page === "reads" && <MyReads />,
-      this.state.page === "search" && <SearchPage />
+      <div>
+        <Route exact path="/" component={MyReads} />
+        <Route exact path="/search" component={SearchPage} />
+      </div>
     );
   }
 }
+//TODO: How to pass function from myreads to searchpage? Handle Shelf Change
 
 export default BooksApp;

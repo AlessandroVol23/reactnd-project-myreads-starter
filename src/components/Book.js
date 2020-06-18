@@ -12,6 +12,10 @@ function Book({
   imageLinks,
   handleShelfChange,
 }) {
+  if (shelf === "") {
+    shelf = "notSelected";
+  }
+
   return (
     <Grid item style={{ margin: 10 }}>
       <div

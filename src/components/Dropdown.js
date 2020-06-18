@@ -1,8 +1,7 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { Grid } from "@material-ui/core";
 
-function Book({ id, shelf, handleShelfChange }) {
+function Dropdown({ id, shelf, handleShelfChange }) {
   return (
     <Grid style={{ padding: 10 }}>
       <select
@@ -19,13 +18,14 @@ function Book({ id, shelf, handleShelfChange }) {
         <option id={id} value="currentlyReading">
           currentlyReading
         </option>
+        <option id={id} value="notSelected" disabled={true}>
+          Not in Shelve
+        </option>
       </select>
     </Grid>
   );
 }
 
-Book.propTypes = {
-  booklist: PropTypes.array,
-};
+Dropdown.propTypes = {};
 
-export default Book;
+export default Dropdown;
