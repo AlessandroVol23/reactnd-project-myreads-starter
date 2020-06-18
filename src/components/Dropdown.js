@@ -19,7 +19,7 @@ function Dropdown({ id, shelf, handleShelfChange }) {
           currentlyReading
         </option>
         <option id={id} value="notSelected" disabled={true}>
-          Not in Shelve
+          None
         </option>
       </select>
     </Grid>

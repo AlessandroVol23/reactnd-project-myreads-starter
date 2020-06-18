@@ -8,7 +8,7 @@ function Book({
   id,
   shelf,
   subtitle,
-  title,
+  title = "",
   imageLinks,
   handleShelfChange,
 }) {

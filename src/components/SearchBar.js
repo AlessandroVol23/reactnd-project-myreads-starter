@@ -2,14 +2,16 @@ import { Grid } from "@material-ui/core";
 import React from "react";
 import TextField from "@material-ui/core/TextField";
 
-import Button from "@material-ui/core/Button";
-function SearchBar({ handleSearchQuery, handleChange }) {
+function SearchBar({ handleChange, value }) {
   return (
     <Grid>
-      <TextField name="search" placeholder="Search" onChange={handleChange} />
-      <Button label="Submit" onClick={handleSearchQuery}>
-        SEARCH
-      </Button>
+      <TextField
+        fullWidth
+        name="search"
+        placeholder="Search"
+        onChange={handleChange}
+        value={value}
+      />
     </Grid>
   );
 }

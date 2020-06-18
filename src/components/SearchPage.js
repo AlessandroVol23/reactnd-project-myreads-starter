@@ -19,6 +19,15 @@ class SearchPage extends React.Component {
     this.fillStateWithBooks();
   }
 
+  fillStateWithBooks = () => {
+    BooksApi.getAll().then((elem) => {
+      this.setState({
+        ...this.state,
+        booklist: [...elem],
+      });
+    });
+  };
+
   handleShelfChange = (event) => {
     const shelve = event.target.value;
     const selectedIndex = event.target.options.selectedIndex;
@@ -29,34 +38,32 @@ class SearchPage extends React.Component {
     this.props.history.push("/");
   };
 
-  fillStateWithBooks = () => {
-    BooksApi.getAll().then((elem) => {
-      this.setState({
-        ...this.state,
-        booklist: [...elem],
-      });
-    });
+  handleChange = (event) => {
+    this.setState({ query: event.target.value });
+    this.handleSearchQuery();
   };
-
-  fetchQueryResults = (query) => {};
 
   handleSearchQuery = () => {
     BooksApi.search(this.state.query)
-      .then((elem) => this.setState({ searchResults: elem }))
-      .then(() => this.mergeSearchResultsAndBooklist());
+      .then((elem) => this.mergeSearchResultsAndBooklist(elem))
+      .catch((err) => {
+        console.log(err);
+        alert("Error while Searching");
+        this.setState({
+          ...this.state,
+          query: "",
+          searchResults: [],
+        });
+      });
   };
 
-  handleChange = (event) => {
-    this.setState({ query: event.target.value });
-  };
-
-  mergeSearchResultsAndBooklist = () => {
-    this.setState({
-      ...this.state,
-      searchResults: this.state.searchResults.filter(
-        (elem) => elem.imageLinks !== undefined
-      ),
-    });
+  mergeSearchResultsAndBooklist = (searchResults = []) => {
+    const filteredBooks = searchResults.filter(
+      (elem) =>
+        elem.imageLinks !== undefined &&
+        elem.authors !== undefined &&
+        elem.title !== undefined
+    );
 
     const lookupBooks = this.state.booklist.reduce((acc, currVal) => {
       return {
@@ -69,7 +76,7 @@ class SearchPage extends React.Component {
 
     const alteredSearchResults = [];
 
-    this.state.searchResults.forEach((elem) => {
+    filteredBooks.forEach((elem) => {
       if (lookupBooks[elem.id]) {
         let book = elem;
         book.shelf = lookupBooks[elem.id].shelf;
@@ -96,8 +103,8 @@ class SearchPage extends React.Component {
         </Grid>
         <Grid style={{ padding: 20 }}>
           <SearchBar
-            handleSearchQuery={this.handleSearchQuery}
             handleChange={this.handleChange}
+            value={this.state.query}
           />
           {this.state.showShelve && (
             <BookShelve
