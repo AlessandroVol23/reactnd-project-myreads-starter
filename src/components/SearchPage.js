@@ -51,6 +51,13 @@ class SearchPage extends React.Component {
   };
 
   mergeSearchResultsAndBooklist = () => {
+    this.setState({
+      ...this.state,
+      searchResults: this.state.searchResults.filter(
+        (elem) => elem.imageLinks !== undefined
+      ),
+    });
+
     const lookupBooks = this.state.booklist.reduce((acc, currVal) => {
       return {
         ...acc,
