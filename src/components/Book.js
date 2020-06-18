@@ -28,7 +28,11 @@ function Book({
       />
       <Dropdown id={id} shelf={shelf} handleShelfChange={handleShelfChange} />
       <Typography variant="h6">{title}</Typography>
-      <Typography variant="subtitle1">{authors}</Typography>
+      {authors.map((author) => (
+        <Typography key={author} variant="subtitle1">
+          {author}
+        </Typography>
+      ))}
     </Grid>
   );
 }
