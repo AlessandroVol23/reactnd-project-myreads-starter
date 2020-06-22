@@ -20,7 +20,9 @@ function MyReadsHeader({ search }) {
       }}
     >
       <Grid xs={8} item>
-        <Typography variant="h2">MyReads</Typography>
+        <Link to="/">
+          <Typography variant="h2">MyReads</Typography>
+        </Link>
       </Grid>
       {search && (
         <Grid xs={4} alignItems="flex-end" container item justify="flex-end">
