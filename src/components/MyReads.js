@@ -25,12 +25,26 @@ class MyReads extends React.Component {
   };
 
   handleShelfChange = (event) => {
-    const shelve = event.target.value;
+    const shelf = event.target.value;
     const selectedIndex = event.target.options.selectedIndex;
     const idOfBook = event.target.options[selectedIndex].getAttribute("id");
     this.setState({ booklist: [] });
 
-    BooksApi.update(idOfBook, shelve).then(() => this.fillStateWithBooks());
+    this.setState({
+      ...this.state,
+      booklist: this.state.booklist.map((elem) => {
+        if (elem.id === idOfBook) {
+          return {
+            ...elem,
+            shelf,
+          };
+        } else {
+          return elem;
+        }
+      }),
+    });
+
+    BooksApi.update(idOfBook, shelf).then(() => {});
   };
 
   render() {
