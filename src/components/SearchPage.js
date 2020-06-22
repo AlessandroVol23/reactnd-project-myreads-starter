@@ -75,13 +75,14 @@ class SearchPage extends React.Component {
       });
     } else {
       this.setState({ query: event.target.value });
-      this.handleSearchQuery();
+      this.handleSearchQuery(event.target.value);
     }
   };
 
-  handleSearchQuery = () => {
-    BooksApi.search(this.state.query)
+  handleSearchQuery = (query) => {
+    BooksApi.search(query)
       .then((elem) => this.mergeSearchResultsAndBooklist(elem))
+
       .then(() =>
         this.setState({
           ...this.state,
@@ -100,12 +101,6 @@ class SearchPage extends React.Component {
       )
       .catch((err) => {
         console.log(err);
-        alert("Error while Searching. Resetting query...");
-        this.setState({
-          ...this.state,
-          query: "",
-          searchResults: [],
-        });
       });
   };
 
