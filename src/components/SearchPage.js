@@ -11,8 +11,10 @@ class SearchPage extends React.Component {
   state = {
     query: "",
     searchResults: [],
+    searchResultLookup: {},
     showShelve: false,
     booklist: [],
+    lookupBooks: {},
   };
 
   componentDidMount() {
@@ -20,22 +22,48 @@ class SearchPage extends React.Component {
   }
 
   fillStateWithBooks = () => {
-    BooksApi.getAll().then((elem) => {
-      this.setState({
-        ...this.state,
-        booklist: [...elem],
-      });
-    });
+    BooksApi.getAll()
+      .then((elem) => {
+        this.setState({
+          ...this.state,
+          booklist: [...elem],
+        });
+      })
+      .then(() =>
+        this.setState({
+          ...this.state,
+          lookupBooks: this.state.booklist.reduce((acc, currVal) => {
+            return {
+              ...acc,
+              [currVal.id]: {
+                ...currVal,
+              },
+            };
+          }, {}),
+        })
+      );
   };
 
   handleShelfChange = (event) => {
-    const shelve = event.target.value;
+    const shelf = event.target.value;
     const selectedIndex = event.target.options.selectedIndex;
     const idOfBook = event.target.options[selectedIndex].getAttribute("id");
 
-    BooksApi.update(idOfBook, shelve).then(() => {});
+    this.setState({
+      ...this.state,
+      searchResults: this.state.searchResults.map((elem) => {
+        if (elem.id === idOfBook) {
+          return {
+            ...elem,
+            shelf,
+          };
+        } else {
+          return elem;
+        }
+      }),
+    });
 
-    this.props.history.push("/");
+    BooksApi.update(idOfBook, shelf).then(() => {});
   };
 
   handleChange = (event) => {
@@ -54,9 +82,25 @@ class SearchPage extends React.Component {
   handleSearchQuery = () => {
     BooksApi.search(this.state.query)
       .then((elem) => this.mergeSearchResultsAndBooklist(elem))
+      .then(() =>
+        this.setState({
+          ...this.state,
+          searchResultLookup: this.state.searchResults.reduce(
+            (acc, currVal) => {
+              return {
+                ...acc,
+                [currVal.id]: {
+                  ...currVal,
+                },
+              };
+            },
+            {}
+          ),
+        })
+      )
       .catch((err) => {
         console.log(err);
-        //alert("Error while Searching");
+        alert("Error while Searching. Resetting query...");
         this.setState({
           ...this.state,
           query: "",
