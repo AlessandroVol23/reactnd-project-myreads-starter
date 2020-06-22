@@ -39,8 +39,16 @@ class SearchPage extends React.Component {
   };
 
   handleChange = (event) => {
-    this.setState({ query: event.target.value });
-    this.handleSearchQuery();
+    if (event.target.value === "") {
+      this.setState({
+        ...this.state,
+        query: "",
+        showShelve: false,
+      });
+    } else {
+      this.setState({ query: event.target.value });
+      this.handleSearchQuery();
+    }
   };
 
   handleSearchQuery = () => {
@@ -48,7 +56,7 @@ class SearchPage extends React.Component {
       .then((elem) => this.mergeSearchResultsAndBooklist(elem))
       .catch((err) => {
         console.log(err);
-        alert("Error while Searching");
+        //alert("Error while Searching");
         this.setState({
           ...this.state,
           query: "",
