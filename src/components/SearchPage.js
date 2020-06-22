@@ -4,6 +4,7 @@ import SearchBar from "./SearchBar";
 import * as BooksApi from "../BooksAPI";
 import BookShelve from "./BookShelve";
 import { Link } from "react-router-dom";
+import MyReadsHeader from "./MyReadsHeader";
 
 import { withRouter } from "react-router-dom";
 
@@ -143,11 +144,7 @@ class SearchPage extends React.Component {
   render() {
     return (
       <Grid>
-        <Grid item className="list-books-title">
-          <Link to="/">
-            <h1>MyReads</h1>
-          </Link>
-        </Grid>
+        <MyReadsHeader />
         <Grid style={{ padding: 20 }}>
           <SearchBar
             handleChange={this.handleChange}
