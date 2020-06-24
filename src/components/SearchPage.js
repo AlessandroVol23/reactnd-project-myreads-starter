@@ -3,7 +3,6 @@ import Grid from "@material-ui/core/Grid";
 import SearchBar from "./SearchBar";
 import * as BooksApi from "../BooksAPI";
 import BookShelve from "./BookShelve";
-import { Link } from "react-router-dom";
 import MyReadsHeader from "./MyReadsHeader";
 
 import { withRouter } from "react-router-dom";
@@ -102,6 +101,10 @@ class SearchPage extends React.Component {
       )
       .catch((err) => {
         console.log(err);
+        this.setState({
+          ...this.state,
+          searchResults: []
+        })
       });
   };
 

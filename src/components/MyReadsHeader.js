@@ -3,6 +3,8 @@ import React from "react";
 import { Typography } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import SearchIcon from "@material-ui/icons/Search";
+import PropTypes from "prop-types";
+
 
 function MyReadsHeader({ search }) {
   return (
@@ -39,6 +41,8 @@ function MyReadsHeader({ search }) {
   );
 }
 
-MyReadsHeader.propTypes = {};
+MyReadsHeader.propTypes = {
+  search: PropTypes.bool
+};
 
 export default MyReadsHeader;
