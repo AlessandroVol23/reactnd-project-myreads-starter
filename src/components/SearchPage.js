@@ -63,7 +63,7 @@ class SearchPage extends React.Component {
       }),
     });
 
-    BooksApi.update(idOfBook, shelf).then(() => {});
+    BooksApi.update(idOfBook, shelf).then(() => { });
   };
 
   handleChange = (event) => {
@@ -79,26 +79,15 @@ class SearchPage extends React.Component {
     }
   };
 
-  handleSearchQuery = (query) => {
-    BooksApi.search(query)
-      .then((elem) => this.mergeSearchResultsAndBooklist(elem))
+  sleep = async (ms) => {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
 
-      .then(() =>
-        this.setState({
-          ...this.state,
-          searchResultLookup: this.state.searchResults.reduce(
-            (acc, currVal) => {
-              return {
-                ...acc,
-                [currVal.id]: {
-                  ...currVal,
-                },
-              };
-            },
-            {}
-          ),
-        })
-      )
+  handleSearchQuery = (query) => {
+    this.sleep(2000)
+
+    BooksApi.search(query)
+      .then((elem) => this.mergeSearchResultsAndBooklist(elem, query))
       .catch((err) => {
         console.log(err);
         this.setState({
@@ -108,7 +97,9 @@ class SearchPage extends React.Component {
       });
   };
 
-  mergeSearchResultsAndBooklist = (searchResults = []) => {
+
+
+  mergeSearchResultsAndBooklist = (searchResults = [], query) => {
     const filteredBooks = searchResults.filter(
       (elem) =>
         elem.imageLinks !== undefined &&
@@ -137,11 +128,15 @@ class SearchPage extends React.Component {
       }
     });
 
-    this.setState({
-      ...this.state,
-      searchResults: alteredSearchResults,
-      showShelve: true,
-    });
+    if (query === this.state.query) {
+
+      this.setState({
+        ...this.state,
+        searchResults: alteredSearchResults,
+        showShelve: true,
+      });
+    }
+
   };
 
   render() {
