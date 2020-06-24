@@ -18,7 +18,7 @@ function Dropdown({ id, shelf, handleShelfChange }) {
         <option id={id} value="currentlyReading">
           currentlyReading
         </option>
-        <option id={id} value="notSelected" disabled={true}>
+        <option id={id} value="notSelected">
           None
         </option>
       </select>
